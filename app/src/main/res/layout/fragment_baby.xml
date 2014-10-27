@@ -1,10 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:background="@color/background_light_red"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:gravity="center_vertical">
+              android:background="@color/background_baby"
+              android:gravity="center_vertical"
+              android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="107dp"
+        android:layout_gravity="center"
+        android:src="@drawable/meisje"/>
 
-              </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lena"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:textSize="40dp"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:textColor="@color/text_white"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="born on 10th june 2014 at 3310gr"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:textSize="20dp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/text_white"/>
+
+    <TextView
+        android:id="@+id/currentWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:textSize="20dp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/text_white"/>
+
+</LinearLayout>

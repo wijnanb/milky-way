@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MilkyWay</string>
+    <string name="today_she_weights">Today she weighs: %s</string>
 </resources>

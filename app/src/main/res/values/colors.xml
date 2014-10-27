@@ -11,4 +11,6 @@
     <color name="divider">#666666</color>
     <color name="background_light_red">#e74c3c</color>
     <color name="background_dark_red">#c84234</color>
+
+    <color name="background_baby">#EBD078</color>
 </resources>

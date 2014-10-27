@@ -10,8 +10,9 @@ import android.view.ViewGroup;
 
 import be.newpage.milkyway.R;
 import be.newpage.milkyway.activities.MainActivity;
+import roboguice.fragment.RoboFragment;
 
-public class MilkFragment extends Fragment implements ViewPager.OnPageChangeListener {
+public class MilkFragment extends RoboFragment implements ViewPager.OnPageChangeListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

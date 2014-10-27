@@ -12,9 +12,10 @@ import be.newpage.milkyway.fragments.GraphFragment;
 import be.newpage.milkyway.fragments.MilkFragment;
 import be.newpage.milkyway.viewpager.DepthPageTransformer;
 import be.newpage.milkyway.viewpager.ViewPagerCustomDuration;
+import roboguice.activity.RoboFragmentActivity;
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends RoboFragmentActivity {
     public static final int PAGE_INPUT_BABY = 0;
     public static final int PAGE_INPUT_MILK = 1;
     public static final int PAGE_GRAPH = 2;
@@ -69,7 +70,6 @@ public class MainActivity extends FragmentActivity {
                 case PAGE_GRAPH:
                     fragment = new GraphFragment();
                     break;
-
                 default:
                     return null;
             }
