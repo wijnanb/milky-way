@@ -1,11 +1,20 @@
 package be.newpage.milkyway.activities;
 
+import android.accounts.Account;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
+
+import be.newpage.milkyway.DatabaseHelper;
+import be.newpage.milkyway.Expression;
 import be.newpage.milkyway.R;
 import be.newpage.milkyway.fragments.BabyFragment;
 import be.newpage.milkyway.fragments.GraphFragment;
@@ -23,6 +32,9 @@ public class MainActivity extends RoboFragmentActivity {
     private static final int NUM_PAGES = 3;
     public ViewPagerCustomDuration viewPager;
     private ScreenSlidePagerAdapter pagerAdapter;
+
+    private DatabaseHelper databaseHelper = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +97,17 @@ public class MainActivity extends RoboFragmentActivity {
 
     @Override
     protected void onDestroy() {
-       super.onDestroy();
+        super.onDestroy();
+        if (databaseHelper != null) {
+            OpenHelperManager.releaseHelper();
+            databaseHelper = null;
+        }
+    }
+
+    public DatabaseHelper getDatabaseHelper() {
+        if (databaseHelper == null) {
+            databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
+        }
+        return databaseHelper;
     }
 }

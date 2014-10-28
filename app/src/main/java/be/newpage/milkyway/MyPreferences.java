@@ -3,11 +3,14 @@ package be.newpage.milkyway;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.Date;
+
 public class MyPreferences {
 
     public static final String BABY_NAME = "baby_name";
     public static final String BORN_WEIGHT = "born_weight";
     public static final String CURRENT_WEIGHT = "current_weight";
+    public static final String BIRTH_DATE = "birth_date";
 
     private static SharedPreferences prefs;
     private static SharedPreferences.Editor editor;
@@ -50,6 +53,15 @@ public class MyPreferences {
 
     public static void setCurrentWeight(int weight) {
         getEditorInstance().putInt(CURRENT_WEIGHT, weight);
+        getEditorInstance().apply();
+    }
+
+    public static Date getBirthDate() {
+        return new Date(getInstance().getLong(BIRTH_DATE, 0));
+    }
+
+    public static void setBirthDate(Date birthDate) {
+        getEditorInstance().putLong(BIRTH_DATE, birthDate.getTime());
         getEditorInstance().apply();
     }
 }

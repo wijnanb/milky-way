@@ -13,6 +13,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Date;
+
 import be.newpage.milkyway.MyPreferences;
 import be.newpage.milkyway.R;
 import be.newpage.milkyway.activities.MainActivity;
@@ -33,6 +35,8 @@ public class BabyFragment extends RoboFragment implements ViewPager.OnPageChange
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        MyPreferences.setBirthDate(new Date("10 june 2014 2:13"));
 
         updateView();
     }

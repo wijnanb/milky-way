@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:weightSum="8"
+              android:padding="2dp"
+              android:background="@color/background_light_green">
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MA 20-03"
+        android:layout_weight="3"
+        android:padding="10dp"
+        android:textColor="@color/powaars"/>
+
+    <TextView
+        android:id="@+id/milk_volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="400ml"
+        android:padding="10dp"
+        android:textColor="@color/powaars"
+        android:layout_weight="2"/>
+
+    <TextView
+        android:id="@+id/lena_volume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="450ml"
+        android:padding="10dp"
+        android:textColor="@color/powaars"
+        android:layout_weight="2"/>
+
+    <ImageView
+        android:id="@+id/suskewiiieeet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="1dp"
+        android:src="@drawable/ic_action_navigation_check"
+        />
+
+</LinearLayout>

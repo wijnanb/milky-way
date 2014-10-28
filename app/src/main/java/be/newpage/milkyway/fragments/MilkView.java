@@ -2,7 +2,6 @@ package be.newpage.milkyway.fragments;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -56,26 +55,31 @@ public class MilkView extends ImageView implements View.OnTouchListener {
         float w = getWidth();
         float h = getHeight();
 
-        float height = ((1-value)*h);
+        float height = ((1 - value) * h);
 
         canvas.drawRect(0.0f, height, w, h, p);
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
+    public boolean onTouch(View view, MotionEvent event) {
         float w = getWidth();
         float h = getHeight();
 
         float y = event.getY();
         float cropped = Math.max(0, Math.min(y, h));
-        value = 1 - (cropped / h);
-        Log.d("touch", "y: " + y + " value: " + value);
 
-        if (listener != null) {
-            listener.update(value);
+        float v =  1 - (cropped / h);
+
+        if (v != 0) {
+            value = v;
+            //Log.d("touch", "y: " + y + " value: " + value);
+
+            if (listener != null) {
+                listener.update(value);
+            }
+
+            invalidate();
         }
-
-        invalidate();
         return true;
     }
 
