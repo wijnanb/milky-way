@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:background="@color/background_blue"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:gravity="center_vertical">
+              android:background="@color/background_blue"
+              android:gravity="center_vertical"
+              android:orientation="vertical">
 
 
     <TextView
@@ -12,36 +12,37 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="5dp"
-        android:textSize="20dp"
         android:fontFamily="sans-serif"
-        android:textColor="@color/text_white"
         android:text="How much did you express?"
+        android:textColor="@color/text_white"
+        android:textSize="20dp"
         />
-    
+
     <TextView
+        android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0 ml"
         android:layout_gravity="center"
         android:layout_margin="5dp"
-        android:textSize="40dp"
-        android:textStyle="bold"
         android:fontFamily="sans-serif"
-        android:textColor="@color/text_white"/>
+        android:text="0 ml"
+        android:textColor="@color/text_white"
+        android:textSize="40dp"
+        android:textStyle="bold"/>
 
-    <be.newpage.milkyway.fragments.MilkView
+    <FrameLayout
         android:id="@+id/flesje"
-        android:layout_gravity="center"
         android:layout_width="172dp"
-        android:layout_height="372.5dp">
+        android:layout_height="372.5dp"
+        android:layout_gravity="center">
 
-        <ImageView
+        <be.newpage.milkyway.fragments.MilkView
             android:id="@+id/contents"
-            android:layout_marginTop="140dp"
-            android:layout_marginLeft="5dp"
             android:layout_width="162dp"
             android:layout_height="219dp"
-            android:src="@drawable/rectangle"/>
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="140dp"
+            android:src="@null"/>
 
         <ImageView
             android:layout_width="172dp"
@@ -49,8 +50,7 @@
             android:src="@drawable/flesje"/>
 
 
+    </FrameLayout>
 
-    </be.newpage.milkyway.fragments.MilkView>
 
-
-              </LinearLayout>
+</LinearLayout>

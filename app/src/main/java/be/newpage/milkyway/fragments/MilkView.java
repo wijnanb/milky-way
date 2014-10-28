@@ -4,23 +4,19 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.media.Image;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import be.newpage.milkyway.OnUpdateListener;
 import be.newpage.milkyway.R;
-import roboguice.inject.InjectView;
 
-public class MilkView extends FrameLayout implements View.OnTouchListener {
-    private ImageView contents;
+public class MilkView extends ImageView implements View.OnTouchListener {
     private float value = 0;
-    private int h = 0;
-    private int w = 0;
     Paint p;
+    private OnUpdateListener listener;
 
     public MilkView(Context context) {
         super(context);
@@ -47,33 +43,47 @@ public class MilkView extends FrameLayout implements View.OnTouchListener {
 
         setWillNotDraw(false);
 
-        contents = (ImageView) findViewById(R.id.contents);
-        w = contents.getLayoutParams().width;
-        h = contents.getLayoutParams().height;
-
         p = new Paint();
-        p.setColor(Color.BLUE);
+        p.setColor(getResources().getColor(R.color.beige_yellow));
 
-        contents.setOnTouchListener(this);
+        setOnTouchListener(this);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        float w = getWidth();
+        float h = getHeight();
 
-        canvas.drawRect(0.0f,0.0f,(float)w,(value*h), p);
+        float height = ((1-value)*h);
+
+        canvas.drawRect(0.0f, height, w, h, p);
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        float w = getWidth();
+        float h = getHeight();
+
         float y = event.getY();
         float cropped = Math.max(0, Math.min(y, h));
-        value = 1 - (cropped / ((float)h));
-        Log.d("touch", "y: " + cropped + " value: " + value);
+        value = 1 - (cropped / h);
+        Log.d("touch", "y: " + y + " value: " + value);
+
+        if (listener != null) {
+            listener.update(value);
+        }
 
         invalidate();
-
         return true;
+    }
+
+    public OnUpdateListener getListener() {
+        return listener;
+    }
+
+    public void setListener(OnUpdateListener listener) {
+        this.listener = listener;
     }
 }
