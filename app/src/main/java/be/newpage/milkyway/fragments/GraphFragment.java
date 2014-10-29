@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import be.newpage.milkyway.Expression;
 import be.newpage.milkyway.MyPreferences;
@@ -58,7 +60,9 @@ public class GraphFragment extends RoboFragment implements ViewPager.OnPageChang
             // specify an adapter (see also next example)
             MainActivity mainActivity = (MainActivity) getActivity();
             List<Expression> expressions = mainActivity.getDatabaseHelper().queryForExpressions();
-            mAdapter = new MyAdapter(expressions);
+            Map<String, Integer> totals = mainActivity.getDatabaseHelper().queryTotalPerDay();
+
+            mAdapter = new MyAdapter(expressions, totals);
             mRecyclerView.setAdapter(mAdapter);
         }
     }

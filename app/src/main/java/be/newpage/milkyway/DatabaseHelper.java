@@ -14,14 +14,19 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Database helper class used to manage the creation and upgrading of your database. This class also usually provides
  * the DAOs used by the other classes.
  */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
+
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     private static final String DATABASE_NAME = "milkyway.db";
     private static final int DATABASE_VERSION = 1;
@@ -92,22 +97,22 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return null;
     }
 
-    public List<Expression> queryForExpressionTotalPerDay() {
-        boolean ascending = false;
+    public Map<String, Integer> queryTotalPerDay() {
+        HashMap<String, Integer> totals = new HashMap<String, Integer>();
+        List<Expression> expressions = queryForExpressions();
 
-        String query = String.format("select %s, sum(%s) from %s group by date(%s)",
-                Expression.COLUMN_NAME_DATE, Expression.COLUMN_NAME_VOLUME, Expression.TABLE_NAME, Expression.COLUMN_NAME_DATE);
+        for (Expression expression : expressions) {
+            String date = dateFormat.format(expression.getDate());
+            int volume = expression.getVolume();
 
-        try {
-            GenericRawResults<Object[]> rawResults = getExpressionDao().queryRaw(query, new DataType[]{DataType.DATE, DataType.INTEGER});
-
-            for (Object[] resultArray : rawResults) {
-                Log.d("db", ""+resultArray);
+            if (totals.containsKey(date)) {
+                volume += totals.get(date);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            totals.put(date, volume);
         }
-        return null;
+
+        return totals;
     }
 
     /**
