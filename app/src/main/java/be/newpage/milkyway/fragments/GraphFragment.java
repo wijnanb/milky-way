@@ -62,7 +62,7 @@ public class GraphFragment extends RoboFragment implements ViewPager.OnPageChang
             List<Expression> expressions = mainActivity.getDatabaseHelper().queryForExpressions();
             Map<String, Integer> totals = mainActivity.getDatabaseHelper().queryTotalPerDay();
 
-            mAdapter = new MyAdapter(expressions, totals);
+            mAdapter = new MyAdapter(getActivity(), expressions, totals);
             mRecyclerView.setAdapter(mAdapter);
         }
     }

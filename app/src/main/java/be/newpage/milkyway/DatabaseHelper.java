@@ -9,6 +9,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
@@ -113,6 +114,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
 
         return totals;
+    }
+
+    public int deleteExpression(Expression expression) {
+        DeleteBuilder<Expression, Integer> builder = getExpressionDao().deleteBuilder();
+        try {
+            builder.where().idEq(expression.getId());
+            return builder.delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     /**
