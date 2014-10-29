@@ -6,16 +6,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+
+import java.util.Date;
 
 import be.newpage.milkyway.DatabaseHelper;
 import be.newpage.milkyway.Expression;
 import be.newpage.milkyway.R;
+import be.newpage.milkyway.Weight;
 import be.newpage.milkyway.fragments.BabyFragment;
 import be.newpage.milkyway.fragments.GraphFragment;
 import be.newpage.milkyway.fragments.MilkFragment;
@@ -47,6 +52,25 @@ public class MainActivity extends RoboFragmentActivity {
         viewPager.setAdapter(pagerAdapter);
         viewPager.setPageTransformer(true, new DepthPageTransformer());
         viewPager.setOffscreenPageLimit(NUM_PAGES - 1);
+
+        /*
+        RuntimeExceptionDao<Weight, Integer> dao = getDatabaseHelper().getWeightDao();
+        Date today = new Date("28 october 2014");
+        today.setHours(0);
+        today.setMinutes(0);
+        today.setSeconds(0);
+        Weight weight = new Weight(today, 6000);
+        dao.create(weight);
+        Log.d(DatabaseHelper.class.getName(), "created new weight in database: " + weight);
+
+        today = new Date("29 october 2014");
+        today.setHours(0);
+        today.setMinutes(0);
+        today.setSeconds(0);
+        weight = new Weight(today, 7000);
+        dao.create(weight);
+        Log.d(DatabaseHelper.class.getName(), "created new weight in database: " + weight);
+        */
     }
 
     @Override

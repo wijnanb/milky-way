@@ -17,6 +17,7 @@ import com.j256.ormlite.table.TableUtils;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,10 +31,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     private static final String DATABASE_NAME = "milkyway.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
-    private Dao<Expression, Integer> expressionDao = null;
     private RuntimeExceptionDao<Expression, Integer> expressionRuntimeDao = null;
+    private RuntimeExceptionDao<Weight, Integer> weightRuntimeDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
@@ -60,22 +61,19 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
-
-    }
-
-    /**
-     * Returns the Database Access Object (DAO) for our SimpleData class. It will create it or just give the cached
-     * value.
-     */
-    public Dao<Expression, Integer> getDao() throws SQLException {
-        if (expressionDao == null) {
-            expressionDao = getDao(Expression.class);
+        if (oldVersion == 1) {
+            try {
+                Log.i(DatabaseHelper.class.getName(), "onUpgrade");
+                TableUtils.createTable(connectionSource, Weight.class);
+            } catch (SQLException e) {
+                Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
+                throw new RuntimeException(e);
+            }
         }
-        return expressionDao;
     }
 
     /**
-     * Returns the RuntimeExceptionDao (Database Access Object) version of a Dao for our SimpleData class. It will
+     * Returns the RuntimeExceptionDao (Database Access Object) version of a Dao for our Expression class. It will
      * create it or just give the cached value. RuntimeExceptionDao only through RuntimeExceptions.
      */
     public RuntimeExceptionDao<Expression, Integer> getExpressionDao() {
@@ -83,6 +81,32 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             expressionRuntimeDao = getRuntimeExceptionDao(Expression.class);
         }
         return expressionRuntimeDao;
+    }
+
+    /**
+     * Returns the RuntimeExceptionDao (Database Access Object) version of a Dao for our Weight class. It will
+     * create it or just give the cached value. RuntimeExceptionDao only through RuntimeExceptions.
+     */
+    public RuntimeExceptionDao<Weight, Integer> getWeightDao() {
+        if (weightRuntimeDao == null) {
+            weightRuntimeDao = getRuntimeExceptionDao(Weight.class);
+        }
+        return weightRuntimeDao;
+    }
+
+    public Weight queryForWeight(Date date) {
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        QueryBuilder<Weight, Integer> statementBuilder = getWeightDao().queryBuilder();
+        try {
+            statementBuilder.where().le(Weight.COLUMN_NAME_DATE, date);
+            statementBuilder.orderBy(Weight.COLUMN_NAME_DATE, false);
+            return statementBuilder.queryForFirst();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<Expression> queryForExpressions() {
@@ -133,7 +157,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void close() {
         super.close();
-        expressionDao = null;
+        weightRuntimeDao = null;
         expressionRuntimeDao = null;
     }
 }

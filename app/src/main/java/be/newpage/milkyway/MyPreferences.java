@@ -47,15 +47,6 @@ public class MyPreferences {
         return 3315;
     }
 
-    public static int getCurrentWeight() {
-        return getInstance().getInt(CURRENT_WEIGHT, -1);
-    }
-
-    public static void setCurrentWeight(int weight) {
-        getEditorInstance().putInt(CURRENT_WEIGHT, weight);
-        getEditorInstance().apply();
-    }
-
     public static Date getBirthDate() {
         return new Date(getInstance().getLong(BIRTH_DATE, 0));
     }

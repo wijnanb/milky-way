@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,14 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+
 import java.util.Date;
 
+import be.newpage.milkyway.DatabaseHelper;
 import be.newpage.milkyway.MyPreferences;
 import be.newpage.milkyway.R;
+import be.newpage.milkyway.Weight;
 import be.newpage.milkyway.activities.MainActivity;
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.InjectView;
@@ -42,7 +47,14 @@ public class BabyFragment extends RoboFragment implements ViewPager.OnPageChange
     }
 
     private void updateView() {
-        int currentWeight = MyPreferences.getCurrentWeight();
+        MainActivity mainActivity = (MainActivity) getActivity();
+        Weight weight = mainActivity.getDatabaseHelper().queryForWeight(new Date("28 october 2014"));
+
+        int currentWeight = -1;
+        if (weight != null) {
+            currentWeight = weight.getWeight();
+        }
+
         String weightString = currentWeight == -1 ? "_____" : (String.valueOf(currentWeight) + "gr");
         currentWeightTextView.setText(getString(R.string.today_she_weights, weightString));
         currentWeightTextView.setOnClickListener(this);
@@ -78,8 +90,18 @@ public class BabyFragment extends RoboFragment implements ViewPager.OnPageChange
                 public void onClick(DialogInterface dialog, int whichButton) {
                     String weightString = input.getText().toString();
                     try {
-                        int weight = Integer.parseInt(weightString);
-                        MyPreferences.setCurrentWeight(weight);
+                        int value = Integer.parseInt(weightString);
+
+                        MainActivity mainActivity = (MainActivity) getActivity();
+                        RuntimeExceptionDao<Weight, Integer> dao = mainActivity.getDatabaseHelper().getWeightDao();
+                        Date today = new Date();
+                        today.setHours(0);
+                        today.setMinutes(0);
+                        today.setSeconds(0);
+                        Weight weight = new Weight(today, value);
+                        dao.create(weight);
+                        Log.d(DatabaseHelper.class.getName(), "created new weight in database: " + weight);
+
                         updateView();
                         dialog.dismiss();
                     } catch (NumberFormatException e) {
